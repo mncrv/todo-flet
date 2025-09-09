@@ -1,0 +1,35 @@
+name: Build iOS unsigned IPA
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-ios:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+      
+      - name: Install uv
+        run: pip install uv
+
+      - name: Sync project
+        run: uv sync
+
+      - name: Build unsigned IPA Package
+        run: flet build ios --release --no-sign --output=./build/ios/todo-unsigned.ipa
+      
+      - name: Upload unsigned IPA artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: unsigned-todo-ipa
+          path: todo-unsigned.ipa
