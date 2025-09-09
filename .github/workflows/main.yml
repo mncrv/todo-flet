@@ -26,7 +26,7 @@ jobs:
         run: uv sync
 
       - name: Build unsigned IPA Package
-        run: uv run flet build ipa --no-sign --output=./build/ios/todo-unsigned.ipa
+        run: uv run flet build ipa --output=./build/ios/todo-unsigned.ipa
 
       - name: Upload unsigned IPA artifact
         uses: actions/upload-artifact@v4
